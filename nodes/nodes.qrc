@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="offline.png">user-offline.png</file>
+        <file alias="online.png">user-online.png</file>
+        <file>list-add.png</file>
+        <file>list-remove.png</file>
+        <file>task-attention.png</file>
+        <file alias="asleep.png">user-invisible.png</file>
+        <file>list-add-multi.png</file>
+        <file>scene.png</file>
+        <file alias="stop.png">media-playback-stop.png</file>
+        <file>view-refresh.png</file>
+        <file>mixer-master.png</file>
+        <file>media-skip-forward.png</file>
+        <file>media-playback-pause.png</file>
+        <file>media-playback-start.png</file>
+        <file>matrix.png</file>
+    </qresource>
+</RCC>

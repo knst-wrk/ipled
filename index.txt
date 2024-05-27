@@ -1,0 +1,135 @@
+
+/* RF options.
+When adjusting RF parameters the following set of constraints must be
+adhered to:
+
+    1.  Modulation index:
+            beta = 2 * Fdev / Bitrate
+            0.5 < beta < 10
+
+    2.  Frequency deviation:
+            600Hz < Fdev < 500kHz - Bitrate/2
+
+    2.  Receiver bandwidths:
+            B    > Fdev + Bitrate/2
+            Bafc > Fdev + Bitrate / 2 + Foffs
+*/
+rf {
+    /* RF frequency in Hertz.
+    Range:   290000000 .. 1020000000 (290MHz .. 1,02GHz)
+    Default: 868000000
+    */
+    frequency: 868000000;
+
+    /* Bit rate in Baud.
+    Range:   1200 .. 300000 (1,2kBd .. 300kBd)
+    Default: 4800
+    */
+    bitrate: 4800;
+
+    /* Frequency deviation for frequency shift keying (FSK).
+    Range:   600 .. 300000 (600Hz .. 300kHz)
+    Default: 5000
+    */
+    fdev: 5000;
+
+    /* Bandwidths for automatic frequency correction (AFC) and the receiver
+    in Hertz.
+    Range:   2600 .. 500000 (2.6kHz .. 500kHz)
+    Default: 15600 (afcbw), 10400 (rxbw)
+    */
+    afcbw: 15600;
+    rxbw: 10400;
+
+    /* Transmitter output power in dBm.
+    Range:   -18 .. 13 (-18dBm .. 13dBm)
+    Default: 13
+    */
+    power: 13;
+
+    /* Mesh identifier.
+    Must not be zero.
+    Range:   1 .. 0xFFFE
+    Default: 0xAAAA
+    */
+    mesh: 0xCAFE;
+
+    /* Node identifier.
+    Range:   0 .. 254
+    */
+    node: 12;
+}
+
+
+/* LED strings options.
+*/
+leds {
+    /* Maximum number of LEDs in a string.
+    Range: 1 .. 400
+    */
+    length: 300;
+
+    /* Frame rate in Hertz.
+    Range:   0 .. 30
+    Default: 10
+    */
+    framerate: 20;
+
+    /* Global brightness setting.
+    Range:   color
+    Default: &rgb(100%, 100%, 100%);
+    */
+    dim: &rgb(0xFF, 0xFF, 0xFF);
+
+    /* Mapping.
+    Relates the virtual LED inputs to the physical strings.
+    Synopsis:  STRING: SRANGE = COLOR;
+               STRING: SRANGE = rgb(BRANGE, BRANGE, BRANGE);
+               STRING: SRANGE = cmy(BRANGE, BRANGE, BRANGE);
+
+    with
+        STRING: string index, 0 through 5
+        SRANGE: range of LEDs in the string
+        BRANGE: ranges in the receive buffer
+        COLOR:  static RGB or CMY color
+
+    A range can be specified as follows:
+        [ BEGIN .. END ]
+        [ BEGIN .. END % STEP ]
+
+    BEGIN and END are the first and last index in the range, respectively.
+    BEGIN may be greather than END to index backwards. BEGIN can be '^' to refer
+    to the lowest possible index, and END can be '$' to refer to the last index.
+    If STEP is specified every other index is considered.
+
+    Default: 0: [^ .. $ ] = rgb([0 .. $ % 3], [1 .. $ % 3], [2 .. $ % 3]
+    */
+    map {
+        0: [0 .. 248] = rgb([0..$%3], [1..$%3], [2..$%3]);
+        1: [248 .. 0] = rgb([747..$%3], [748..$%3], [749..$%3]);
+    }
+
+    /* Default setting.
+    Default: [^ .. $] = &0 (all strings)
+    */
+    default {
+        0: [^ .. $] = &0;
+        1: [^ .. $] = &0;
+        2: [^ .. $] = &0;
+        3: [^ .. $] = &0;
+        4: [^ .. $] = &0;
+        5: [^ .. $] = &0;
+    }
+}
+
+
+mode "scene" {
+    scene 0 {
+        "/funkeln.tp2";
+    }
+
+    scene 1 {
+        "/pulse_0_100.tp2";
+    }
+}
+
